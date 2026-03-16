@@ -5,73 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TriQue | Uygulama Portfolyosu</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-color: #f1f5f9;
-            --accent-color: #38bdf8;
-            --hover-color: #7dd3fc;
+            --card-bg: rgba(20, 20, 30, 0.5); /* Koyu estetik cam efekti */
+            --text-color: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 40px 20px;
+            color: var(--text-color);
+            background: linear-gradient(45deg, #ff0055, #ff9900, #00ccff, #9d00ff, #ff00c8);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            overflow-x: hidden;
+        }
+
+        /* Arka plan renk animasyonu */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-align: center;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: titleBounce 2s infinite alternate ease-in-out;
+        }
+
+        /* Başlık Zıplama Animasyonu */
+        @keyframes titleBounce {
+            0% { transform: translateY(0) scale(1); text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+            100% { transform: translateY(-10px) scale(1.02); text-shadow: 0 15px 25px rgba(0,0,0,0.5); }
         }
 
         p {
-            color: #94a3b8;
-            margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
         }
 
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 25px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
+            perspective: 1000px; /* 3D efekt için */
         }
 
         .app-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
             padding: 24px;
             text-decoration: none;
             color: inherit;
             display: flex;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            overflow: hidden;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Yaylanma (bounce) efekti */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
+        /* Havada süzülme efekti */
+        .app-card {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Kartların farklı zamanlarda süzülmesi için gecikme */
+        .app-card:nth-child(even) { animation-delay: 1.5s; }
+        .app-card:nth-child(3n) { animation-delay: 3s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Hover (Üzerine Gelme) Durumu - Çılgın Parlama ve Büyüme */
         .app-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            background: rgba(30, 41, 59, 0.9);
+            transform: scale(1.08) translateY(-10px) rotate(1deg);
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(30, 30, 45, 0.7);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                        0 0 20px rgba(255, 255, 255, 0.3), 
+                        inset 0 0 15px rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            animation: none; /* Üzerindeyken süzülmeyi durdur */
         }
 
         .icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-right: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .app-card:hover .icon {
+            transform: scale(1.3) rotate(15deg);
         }
 
         .details {
@@ -80,49 +129,65 @@
         }
 
         .app-name {
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 4px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
         }
 
         .app-desc {
-            font-size: 0.9rem;
-            color: #94a3b8;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.3;
         }
 
         .arrow {
             margin-left: auto;
-            opacity: 0.5;
-            transition: transform 0.3s;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            transition: all 0.4s;
+            background: linear-gradient(90deg, #fff, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .app-card:hover .arrow {
-            transform: translateX(5px);
+            transform: translateX(8px) scale(1.2);
             opacity: 1;
-            color: var(--accent-color);
         }
 
         footer {
             margin-top: auto;
-            padding-top: 50px;
-            font-size: 0.8rem;
-            color: #475569;
+            padding-top: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
 
-    <h1>🚀 TriQue Proje Portfolyosu</h1>
+    <h1>🚀 TriQue Proje Portfolyosu 🚀</h1>
     <p>Geliştirdiğim web tabanlı uygulamalar, araçlar ve oyunlar</p>
 
     <div class="container">
+        <a href="https://trique06.github.io/oy-tercihi/" class="app-card">
+            <div class="icon">🗳️</div>
+            <div class="details">
+                <span class="app-name">Seçim Serüveni</span>
+                <span class="app-desc">Geçmişten bugüne oy pusulası simülasyonu.</span>
+            </div>
+            <div class="arrow">✦</div>
+        </a>
+
         <a href="https://trique06.github.io/cyber-elements/" class="app-card">
             <div class="icon">👾</div>
             <div class="details">
                 <span class="app-name">Cyber-Elements</span>
                 <span class="app-desc">Siber dünyaya adım atın ve keşfedin.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/color-mixer/" class="app-card">
@@ -131,7 +196,7 @@
                 <span class="app-name">Color Mixer</span>
                 <span class="app-desc">Renkleri karıştırın ve paletler oluşturun.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/block-isometry/" class="app-card">
@@ -140,7 +205,7 @@
                 <span class="app-name">Block Isometry</span>
                 <span class="app-desc">İzometrik blok tasarım aracı.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/koltuk-hesap/" class="app-card">
@@ -149,7 +214,7 @@
                 <span class="app-name">Koltuk Hesaplayıcı</span>
                 <span class="app-desc">Düzen ve kapasite planlama.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/result_visualiser/" class="app-card">
@@ -158,7 +223,7 @@
                 <span class="app-name">Sonuç Görselleştirici</span>
                 <span class="app-desc">Verileri grafiklere dönüştürün.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/senaryo-website/" class="app-card">
@@ -167,7 +232,7 @@
                 <span class="app-name">Senaryo Portalı</span>
                 <span class="app-desc">Kurgu ve senaryo yönetim platformu.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/projeksiyon_hesaplayici/" class="app-card">
@@ -176,7 +241,7 @@
                 <span class="app-name">Projeksiyon Aracı</span>
                 <span class="app-desc">Mesafe ve boyut hesaplamaları.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
 
         <a href="https://trique06.github.io/siyasieksentesti/" class="app-card">
@@ -185,7 +250,7 @@
                 <span class="app-name">Siyasi Eksen Testi</span>
                 <span class="app-desc">Görüşlerinizi analiz edin.</span>
             </div>
-            <div class="arrow">➜</div>
+            <div class="arrow">✦</div>
         </a>
     </div>
 
